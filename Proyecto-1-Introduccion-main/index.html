@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Ronaldo Najera">
+    <meta name="Pablo Lucero">
+    <meta name="Anibal Trigueros">
+    <meta name="Mauricio Figueroa">
+    <title>INFINITY NEWS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <img src="Imagenes/Logo.jpg" alt="Logo">
+    </div>
+    <div class="brand">
+        <h1>INFINITY NEWS</h1>
+        <p>El Universo de Información a tu Alcance...</p>
+    </div>
+    <div class="botones-menu">
+        <button onclick="scrollToSection('Inicio')">Inicio</button>
+        <button onclick="scrollToSection('deportes')">Deportes</button>
+        <button onclick="scrollToSection('tecnologia')">Tecnología</button>
+        <button onclick="scrollToSection('Current')">Noticias</button>
+        <button onclick="scrollToSection('clima')">Clima</button>
+    </div>
+</header>
+
+<main>
+    <!-- Sección para mostrar noticias de inicio -->
+    <section id="Inicio" class="Inicio">
+        <h2>Inicio</h2>
+        <p>Descubre las últimas noticias y novedades aquí. ¡No te lo pierdas!</p>
+        <!-- Contenido de inicio -->
+        <div class="image-container">
+            <img class="Ultima-Hora" src="https://vskills.in/certification/blog/wp-content/uploads/2015/01/structure-of-a-news-report.jpg" alt="Imagen Noticia Ultima Hora">
+        </div>
+    </section>
+
+    <!-- Sección para mostrar noticias de deportes -->
+    <section id="deportes">
+        <h2>Deportes</h2>
+        <p>Todo sobre el mundo del deporte. ¡Mantente al tanto de los eventos más importantes!</p>
+        <div class="image-container">
+            <img src="Imagenes/Deportes.jpg" alt="Deportes">
+        </div>
+        
+        <div id="deportesNoticias" class="noticias-container">
+            <!-- Contenido de noticias de deportes -->
+        </div>
+    </section>
+
+    <!-- Sección para mostrar noticias de tecnología -->
+    <section id="tecnologia">
+        <h2>Tecnología</h2>
+        <p>Explora las últimas innovaciones tecnológicas y tendencias del mundo digital.</p>
+        <div class="image-container">
+            <img src="Imagenes/Tecnologia.jpg" alt="Tecnologia">
+        </div>
+        <div id="tecnologiaNoticias" class="noticias-container">
+            <!-- Contenido de noticias de tecnología -->
+        </div>
+    </section>
+
+    <!-- Sección para mostrar noticias de Reddit -->
+    <section id="Current">
+        <h2>Noticias</h2>
+        <p>Explora el universo, obtén noticias con las publicaciones más populares y curiosas.</p>
+        <div class="image-container">
+            <img src="Imagenes/Current.jpg" alt="Imagen Noticias">
+        </div>
+        <div id="CurrentNoticias" class="noticias-container">
+            <!-- Contenido de noticias de Reddit -->
+        </div>
+    </section>
+
+    <!-- Sección para mostrar información del clima -->
+    <section id="clima">
+        <h2>Clima</h2>
+        <div class="image-clima">
+            <img src="Imagenes/Clima.jpg" alt="Imangen de Clima">
+        </div>
+        <p>Consulta el clima actual en Guatemala.</p>
+        <div id="ciudadDeGuatemala" class="noticias-container">
+            <!-- Contenido de información del clima para Ciudad de Guatemala -->
+        </div>
+        <div id="jalapa" class="noticias-container">
+            <!-- Contenido de información del clima para Jalapa -->
+        </div>
+        <div id="regionNorte" class="noticias-container">
+            <!-- Contenido de información del clima para la Región Norte -->
+        </div>
+        <div id="regionSur" class="noticias-container">
+            <!-- Contenido de información del clima para la Región Sur -->
+        </div>
+        <div id="regionOccidente" class="noticias-container">
+            <!-- Contenido de información del clima para la Región Occidente -->
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div id="contacto">
+        <h3>Contactos</h3>
+        <p>Teléfono: 6770-6489</p>
+        <p>Correo electrónico: newsinfinity@gmail.com.gt</p>
+        <p>&copy; 2024.Todos los derechos reservados.</p>
+    </div>
+    <div class="redes-sociales">
+        <h3>Síguenos en redes sociales:</h3>
+        <ul>
+            <li><a href="https://www.facebook.com">Facebook</a></li>
+            <li><a href="https://twitter.com">Twitter</a></li>
+            <li><a href="https://www.instagram.com">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/es/">Tik tok</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+    // Función para hacer scroll hacia la sección correspondiente
+    function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+// Función para cargar noticias de tecnología desde News API
+function cargarNoticiasTecnologia() {
+    const apiKey = '9429116ec5114564be80f75135f6ff58'; // Reemplaza con tu clave API de News API
+    const url = `https://newsapi.org/v2/top-headlines?country=mx&category=technology&apiKey=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const noticiasContainer = document.getElementById('tecnologiaNoticias');
+            noticiasContainer.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas noticias
+
+            data.articles.forEach(article => {
+                const articleElement = document.createElement('div');
+                articleElement.classList.add('noticia');
+
+                // Verificar si hay descripción disponible
+                const description = article.description ? article.description : 'Click en leer más para mayor información';
+
+                articleElement.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p>${description}</p>
+                    <a href="${article.url}" target="_blank">Leer más</a>
+                `;
+                noticiasContainer.appendChild(articleElement);
+            });
+        })
+        .catch(error => console.error('Error al cargar noticias de tecnología desde News API:', error));
+}
+
+// Cargar noticias de tecnología al cargar la página y actualizar cada día
+window.addEventListener('load', () => {
+    cargarNoticiasTecnologia(); // Cargar noticias de tecnología al inicio
+    setInterval(cargarNoticiasTecnologia, 24 * 60 * 60 * 1000); // Actualizar noticias de tecnología cada día
+});
+
+// Función para cargar noticias de deportes desde News API
+    function cargarNoticiasDeportivas() {
+    const apiKey = '9429116ec5114564be80f75135f6ff58'; // Reemplaza con tu clave API de News API
+    const url = `https://newsapi.org/v2/top-headlines?country=mx&category=sports&apiKey=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const noticiasContainer = document.getElementById('deportesNoticias');
+            noticiasContainer.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas noticias
+
+            data.articles.forEach(article => {
+                const articleElement = document.createElement('div');
+                articleElement.classList.add('noticia');
+
+                // Verificar si hay descripción disponible
+                const description = article.description ? article.description : 'Click en leer más para mayor información';
+
+                articleElement.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p>${description}</p>
+                    <a href="${article.url}" target="_blank">Leer más</a>
+                `;
+                noticiasContainer.appendChild(articleElement);
+            });
+        })
+        .catch(error => console.error('Error al cargar noticias deportivas desde News API:', error));
+}
+
+// Cargar noticias deportivas al cargar la página y actualizar cada día
+window.addEventListener('load', () => {
+    cargarNoticiasDeportivas(); // Cargar noticias deportivas al inicio
+    setInterval(cargarNoticiasDeportivas, 24 * 60 * 60 * 1000); // Actualizar noticias deportivas cada día
+});
+
+    // Función para cargar noticias desde Currents API
+    function cargarNoticiasCurrents() {
+        const apiKey = 'VEJJwIn4dhZEzMIBOH7dCWQEZE6BPdcq5TGA3GzIwriHXuPD'; // Reemplaza con tu clave API de Currents
+        fetch(`https://api.currentsapi.services/v1/latest-news?language=es&apiKey=${apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                const noticiasContainer = document.getElementById('CurrentNoticias');
+                noticiasContainer.innerHTML = ''; // Limpiar el contenedor antes de cargar nuevas noticias
+
+                data.news.forEach(article => {
+                    const articleElement = document.createElement('div');
+                    articleElement.classList.add('noticia');
+                    articleElement.innerHTML = `
+                        <h3>${article.title}</h3>
+                        <p>${article.description}</p>
+                        <a href="${article.url}" target="_blank">Leer más</a>
+                    `;
+                    noticiasContainer.appendChild(articleElement);
+                });
+            })
+            .catch(error => console.error('Error al cargar noticias de Currents API:', error));
+    }
+
+// Función para cargar información del clima desde la API de OpenWeatherMap
+function cargarClima(ciudad, contenedorId) {
+    const apiKey = '02a972ab5507abbd7378d5be3c842834'; // API key de OpenWeatherMap
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad},GT&units=metric&lang=es&appid=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            const contenedor = document.getElementById(contenedorId);
+
+            contenedor.innerHTML = ''; // Limpiar el contenedor antes de cargar nueva información
+
+            const climaElemento = document.createElement('div');
+            climaElemento.classList.add('clima');
+            climaElemento.innerHTML = `
+                <h3>${data.name}, ${data.sys.country}</h3>
+                <p>Temperatura: ${data.main.temp}°C</p>
+                <p>Clima: ${data.weather[0].description}</p>
+                <p>Humedad: ${data.main.humidity}%</p>
+                <p>Viento: ${data.wind.speed} m/s</p>
+            `;
+            contenedor.appendChild(climaElemento);
+        })
+        .catch(error => console.error('Error al cargar información del clima:', error));
+}
+
+// Función para cargar climas de las diferentes regiones
+function cargarClimasRegiones() {
+    cargarClima('Ciudad de Guatemala', 'ciudadDeGuatemala');
+    cargarClima('Jalapa', 'jalapa');
+    cargarClima('Cobán', 'regionNorte'); // Ejemplo de una ciudad en la región norte
+    cargarClima('Escuintla', 'regionSur'); // Ejemplo de una ciudad en la región sur
+    cargarClima('Quetzaltenango', 'regionOccidente'); // Ejemplo de una ciudad en la región occidente
+}
+
+// Cargar información del clima al cargar la página y actualizar cada 30 minutos
+window.addEventListener('load', () => {
+    cargarClimasRegiones(); // Cargar el clima de las diferentes regiones al inicio
+    setInterval(cargarClimasRegiones, 30 * 60 * 1000); // Actualizar el clima cada 30 minutos
+
+    cargarNoticiasCurrents(); // Cargar noticias de Currents API al inicio
+    setInterval(cargarNoticiasCurrents, 24 * 60 * 60 * 1000); // Actualizar noticias cada 24 horas
+});
+</script>
+</html>
